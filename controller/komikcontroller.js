@@ -23,3 +23,18 @@ async function getKomikById(req, res) {
         res.status(500).json({ error: 'Failed to fetch komik by ID' });
     }
 }
+
+async function updateKomik(req, res) {
+    const{id} = req.params;
+    const { title, author, genre } = req.body;
+    try{
+        const komik= await db.komik.findByPk(id);
+        if(!komik){
+            return res.status(404).json({error: 'Komik not found'});
+        }
+        komik.title= title;
+        komik.description= description;
+        komik.author= author;
+        await komik.save();
+        res.status(200).json(komik);
+    } 
